@@ -4,7 +4,7 @@ Olympics demo
 Build with Angular.js using lineman.js following Angular style guide: https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md
 
 # Live Demo
-http://olympics.herokuapp.com/
+https://olympicsdemo.herokuapp.com/
 
 # Instructions
 1. `$ git clone git@github.com:Havrl/olympics-demo.git my-app`
@@ -50,3 +50,9 @@ To run the end-to-end tests:
     If you see this error: Warning: there's no selenium server jar at the specified location,
     you may need to change the selenium-server-standalone jar version in config/spec-e2e.js
     to the actual you see in /node_modules/protractor/selenium/selenium-server-standalone-2.44.0.
+
+
+# Separate node express server is available
+The app can be used with a separate express server.
+It is located in the `server` folder, which is copied into the production build
+and can be run on port 8888 by default.
