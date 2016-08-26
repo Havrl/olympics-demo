@@ -1,0 +1,10 @@
+.DS_Store
+.elasticbeanstalk/
+.idea
+.grunt
+
+/node_modules
+/docs
+/dist
+/generated
+
