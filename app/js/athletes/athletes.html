@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-        <table class="table" ng-if="vm.rangedList.length > 0">
+        <table class="table" ng-if="vm.fullList.length > 0">
             <thead>
             <tr>
                 <th colspan="2" class="rank">Country</th>
@@ -17,21 +17,21 @@
             </tr>
             </thead>
             <tbody>
-            <tr class="row-athlete" ng-repeat="item in vm.rangedList">
+            <tr class="row-athlete" ng-repeat="item in vm.fullList | limitTo: vm.rangeNum">
 
                 <td colspan="2">{{$index+1}}</td>
-                <td class="country">{{item.country}}</td>
-                <td>{{item.medals.Gold}}</td>
-                <td>{{item.medals.Silver}}</td>
-                <td>{{item.medals.Bronze}}</td>
-                <td class="total">{{item.total}}</td>
+                <td class="country">{{::item.country}}</td>
+                <td>{{::item.medals.Gold}}</td>
+                <td>{{::item.medals.Silver}}</td>
+                <td>{{::item.medals.Bronze}}</td>
+                <td class="total">{{::item.total}}</td>
             </tr>
             </tbody>
             <tfoot>
             <tr><td colspan="7">
-                <button class="btn btn-link" ng-click="vm.showAll()" ng-if="vm.rangedList.length <= 10">
+                <button class="btn btn-link" ng-click="vm.showAll()" ng-if="vm.rangeNum <= 10">
                     <i class="glyphicon glyphicon-chevron-right"></i> All countries</button>
-                <button class="btn btn-link" ng-click="vm.showLess()" ng-if="vm.rangedList.length > 10">
+                <button class="btn btn-link" ng-click="vm.showLess()" ng-if="vm.rangeNum > 10">
                     <i class="glyphicon glyphicon-chevron-up"></i> Show less</button>
             </td></tr>
             </tfoot>

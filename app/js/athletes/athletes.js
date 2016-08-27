@@ -5,15 +5,19 @@
         .module('app.athletes')
         .controller('Athletes', Athletes);
 
-    Athletes.$inject = ['$scope', 'dataService', 'athleteService'];
+    Athletes.$inject = ['dataService', 'athleteService'];
 
-    function Athletes($scope, dataService, athleteService) {
+    function Athletes(dataService, athleteService) {
 
         /*jshint validthis: true */
         var vm = this;
         
         vm.fullList = [];
         vm.rangedList = [];
+        
+        vm.limitNum = 10; // const, used to adjust the limit number
+        vm.rangeNum = vm.limitNum; // set the range to limitNum by default
+        
         vm.showAll = showAll;
         vm.showLess = showLess;
 
@@ -22,21 +26,23 @@
 
         // init
         function activate() {
-            loadData();
+            return loadData().then(function(){
+                return showLess();
+            });
         }
 
         /**
          * Trigger to display all list
          */
         function showAll() {
-            vm.rangedList = vm.fullList;
+            vm.rangeNum = vm.fullList.length;
         }
 
         /**
-         * Trigger to display the list of 10 items
+         * Trigger to display the limited list
          */
         function showLess() {
-            vm.rangedList = vm.fullList.splice(0,10);
+            vm.rangeNum = vm.limitNum;
         }
 
         /**
@@ -45,14 +51,13 @@
         function loadData() {
             
             return dataService.getList().then(function (res) {
-                var list = res.data;
+                var list = res;
 
                 vm.fullList = athleteService.transformList(list);
-
-                showLess();
 
             });
             
         }
     }
+    
 })();

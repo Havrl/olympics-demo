@@ -27,7 +27,7 @@
      */
     function getList() {
       return $http.get(url).then(function (result) {
-        return result;
+        return result.data;
       });
     }
 
