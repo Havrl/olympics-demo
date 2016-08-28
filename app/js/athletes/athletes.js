@@ -5,19 +5,19 @@
         .module('app.athletes')
         .controller('Athletes', Athletes);
 
-    Athletes.$inject = ['dataService', 'athleteService'];
+    Athletes.$inject = ['dataService', 'athleteService', 'exception'];
 
-    function Athletes(dataService, athleteService) {
+    function Athletes(dataService, athleteService, exception) {
 
         /*jshint validthis: true */
         var vm = this;
-        
+
         vm.fullList = [];
         vm.rangedList = [];
-        
+
         vm.limitNum = 10; // const, used to adjust the limit number
         vm.rangeNum = vm.limitNum; // set the range to limitNum by default
-        
+
         vm.showAll = showAll;
         vm.showLess = showLess;
 
@@ -26,9 +26,7 @@
 
         // init
         function activate() {
-            return loadData().then(function(){
-                return showLess();
-            });
+            loadData();
         }
 
         /**
@@ -49,15 +47,12 @@
          * Loads athletes data from the sever
          */
         function loadData() {
-            
-            return dataService.getList().then(function (res) {
-                var list = res;
-
-                vm.fullList = athleteService.transformList(list);
-
-            });
-            
+            return dataService.getList()
+                .then(function (res) {
+                    vm.fullList = athleteService.transformList(res);
+                })
+                .catch(exception.catcher('Failed to retrieve data'));
         }
     }
-    
+
 })();

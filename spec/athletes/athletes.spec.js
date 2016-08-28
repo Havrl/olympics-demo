@@ -1,69 +1,77 @@
 /* jshint -W117, -W030 */
-describe('app.athletes', function() {
-    var controller, dataService, athleteService;
+describe('app.athletes', function () {
+    var controller, athleteService, dataService;
 
-    beforeEach(function() {
-
+    beforeEach(function () {
         module('app');
-
     });
 
-    beforeEach(inject(function(_$controller_, $q, $rootScope, _dataService_, _athleteService_) {
+    beforeEach(inject(function (_$controller_, $q, $rootScope, _dataService_, _athleteService_) {
 
         dataService = _dataService_;
         athleteService = _athleteService_;
 
-        /*sinon.stub(dataService, 'getList', function() {
-            var deferred = $q.defer();
-            deferred.resolve(mockData.getMockData());
-            return deferred.promise;
-        });*/
+        // mock the dataService.getList method to return mock data
+        sinon.stub(dataService, 'getList', function() {
+         var deferred = $q.defer();
+         deferred.resolve(mockData.getMockData());
+         return deferred.promise;
+         });
 
+        // init the controller
         controller = _$controller_('Athletes', {
             dataService: dataService,
             athleteService: athleteService
         });
 
-        //$rootScope.$apply();
+        $rootScope.$digest();
+
     }));
 
 
-    describe('Athletes Controller', function() {
+    describe('Athletes Controller', function () {
+
         it('should be created successfully', function () {
+
             expect(controller).toBeDefined();
+
         });
 
-        /*describe('after activate', function() {
+        describe('after activate', function () {
 
-            it('should have 41 countries', function() {
+            it('should have 41 countries', function () {
+
                 expect(controller.fullList.length).toBe(41);
+
             });
-        });*/
 
+            it('should be able to show less', function () {
 
-        it('should be able to show less', function() {
+                controller.showLess();
+                expect(controller.rangeNum).toBe(10);
 
-            controller.showLess();
-            expect(controller.rangeNum).toBe(10);
+            });
 
-        });
+            it('should be able to show all list', function () {
 
-        it('should be able to show all list', function() {
+                controller.fullList = mockData.getMockData();
+                controller.showAll();
+                expect(controller.rangeNum).toBeGreaterThan(41);
 
-            controller.fullList = mockData.getMockData();
-            controller.showAll();
-            expect(controller.rangeNum).toBeGreaterThan(41);
-
+            });
         });
 
     });
 
-    describe('Athletes Service', function() {
+    describe('Athletes Service', function () {
+
         it('should be registered', function () {
+
             expect(athleteService).not.toBeNull();
+
         });
 
-        it('should transform the list', function() {
+        it('should transform the list', function () {
 
             var mockList = mockData.getMockData();
 
